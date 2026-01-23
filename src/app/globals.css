@@ -1,26 +1,112 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
+/* 1. Theme Configuration */
 @theme inline {
+  /* Typography */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  
+  /* Core Colors (Mapped to Shadcn & Tailwind) */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Radius Scale */
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  
+  --background: oklch(0.14 0 0);      /* #121212 - Premium Soft Black */
+  --foreground: oklch(0.92 0.01 0);    /* #EAEAEA - Eye-friendly White */
+  
+  --primary: oklch(0.92 0.01 0);
+  --primary-foreground: oklch(0.14 0 0);
+
+  --secondary: oklch(0.25 0 0);       /* #262626 - For secondary buttons */
+  --secondary-foreground: oklch(0.92 0.01 0);
+
+  --muted: oklch(0.2 0 0);            /* #1A1A1A */
+  --muted-foreground: oklch(0.6 0 0);  /* For descriptions and labels */
+
+  --accent: oklch(0.3 0 0);           /* #333333 */
+  --accent-foreground: oklch(0.92 0.01 0);
+
+  --card: oklch(0.16 0 0);            /* Slightly lifted from background */
+  --card-foreground: oklch(0.92 0.01 0);
+
+  --popover: oklch(0.16 0 0);
+  --popover-foreground: oklch(0.92 0.01 0);
+
+  --border: oklch(1 0 0 / 10%);       /* Transparent borders for glass effects */
+  --input: oklch(1 0 0 / 10%);
+  --ring: oklch(0.92 0.01 0 / 30%);
+
+  --radius: 0.75rem;
+}
+
+/* 3. Disable Dark Mode Overrides */
+/* We force .dark to match :root so system settings never break your design. */
+.dark {
+  --background: oklch(0.14 0 0);
+  --foreground: oklch(0.92 0.01 0);
+  --primary: oklch(0.92 0.01 0);
+  --primary-foreground: oklch(0.14 0 0);
+  --muted-foreground: oklch(0.6 0 0);
+}
+
+/* 4. Base Styles & Global Polish */
+@layer base {
+  * {
+    @apply border-border outline-ring/50 transition-colors duration-300;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased selection:bg-white/20;
+    /* This makes your smooth scrolling feel even better */
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Improve typography for storytelling */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold tracking-tighter text-balance;
+  }
+
+  p {
+    @apply leading-relaxed text-muted-foreground;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* 5. Custom Utilities for Awards */
+@layer utilities {
+  .text-glow {
+    text-shadow: 0 0 20px oklch(1 0 0 / 20%);
+  }
+  
+  .glass {
+    @apply bg-white/5 backdrop-blur-xl border border-white/10;
+  }
 }
