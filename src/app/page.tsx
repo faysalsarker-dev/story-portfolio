@@ -1,11 +1,12 @@
 
 import HeroSection from "@/components/sections/HeroSection";
+import SkillSection from "@/components/sections/SkillSection";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center flex-col space-y-96">
+    <div>
    <HeroSection/>
-
+<SkillSection/>
 
     </div>
   );

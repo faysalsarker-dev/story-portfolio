@@ -299,7 +299,7 @@ export default function HeroText() {
   return (
     <div ref={containerRef} className="w-full px-4">
       <div className="flex flex-col items-center justify-center text-center">
-        <div className="line-1 mb-6 text-2xl font-semibold uppercase tracking-[0.5em] md:text-4xl lg:text-5xl overflow-hidden flex flex-wrap justify-center">
+        <div className="select-none line-1 mb-6 text-2xl font-semibold uppercase tracking-[0.5em] md:text-4xl lg:text-5xl overflow-hidden flex flex-wrap justify-center">
           {splitText('Full-Stack')}
         </div>
         <div className="line-2 select-none text-6xl font-black uppercase italic leading-[0.8] sm:text-8xl md:text-[10rem] lg:text-[12rem] overflow-hidden">
