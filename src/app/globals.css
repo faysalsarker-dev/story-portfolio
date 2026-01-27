@@ -1,18 +1,20 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@custom-variant dark (&:is(.dark *));
+
 /* 1. Theme Configuration */
 @theme inline {
   /* Typography */
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  
+
   /* Core Colors (Mapped to Shadcn & Tailwind) */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  
+
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
-  
+
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
 
@@ -36,13 +38,31 @@
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
+  --animate-marquee: marquee var(--duration) infinite linear;
+  --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
+  @keyframes marquee {
+  from {
+    transform: translateX(0);
+    }
+  to {
+    transform: translateX(calc(-100% - var(--gap)));
+    }
+  }
+  @keyframes marquee-vertical {
+  from {
+    transform: translateY(0);
+    }
+  to {
+    transform: translateY(calc(-100% - var(--gap)));
+    }
+  }
 }
 
 :root {
-  
+/* #0a0a0a */
   --background: oklch(0.14 0 0);      /* #121212 - Premium Soft Black */
   --foreground: oklch(0.92 0.01 0);    /* #EAEAEA - Eye-friendly White */
-  
+
   --primary: oklch(0.92 0.01 0);
   --primary-foreground: oklch(0.14 0 0);
 
@@ -105,8 +125,17 @@
   .text-glow {
     text-shadow: 0 0 20px oklch(1 0 0 / 20%);
   }
-  
+
   .glass {
     @apply bg-white/5 backdrop-blur-xl border border-white/10;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
   }
 }

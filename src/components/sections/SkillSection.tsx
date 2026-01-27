@@ -1,9 +1,11 @@
-import PowerChipEcosystem from "../modules/Skills/TechEcosystem3D";
+import CompactMotherboard from "../modules/Skills/Motherboard";
 
 export default function SkillSection() {
   return (
-    <div>
-        <PowerChipEcosystem/>
-    </div>
+<div >
+   
+          <CompactMotherboard/>
+      
+</div>
   )
 }
