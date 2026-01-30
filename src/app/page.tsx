@@ -7,8 +7,8 @@ export default function Home() {
   return (
     <div>
    <HeroSection/>
-<SkillSection/>
 <AboutSection/>
+<SkillSection/>
     </div>
   );
 }

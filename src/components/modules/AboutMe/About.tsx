@@ -1,137 +1,187 @@
 "use client";
-import { useRef } from 'react';
-import Image from 'next/image';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-// import { useGSAP } from '@gsap/react';
-// import SplitType from 'split-type';
+
+import React, { useLayoutEffect, useRef } from "react";
+import Image from "next/image";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import SplitType from "split-type";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function AwardAboutSection() {
-  const mainRef = useRef(null);
-  const portalRef = useRef(null);
-  const imageRef = useRef(null);
-  const lineRef = useRef(null);
-  const bioTextRef = useRef(null);
-  const bgTextRef = useRef(null);
+const AboutMasterpiece = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const supernovaRef = useRef<HTMLDivElement>(null);
+  const section1Ref = useRef<HTMLDivElement>(null);
+  const section2Ref = useRef<HTMLDivElement>(null);
+  const heroImageRef = useRef<HTMLDivElement>(null);
 
-  // useGSAP(() => {
-  //   // 1. Initial Setup for Line Drawing 
-  //   const path = lineRef.current;
-  //   const pathLength = path.getTotalLength();
-  //   gsap.set(path, { strokeDasharray: pathLength, strokeDashoffset: pathLength });
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      // Initialize Typography
+      const title1 = new SplitType(".title-1", { types: "chars,words" });
+      const text2 = new SplitType(".text-2", { types: "lines" });
 
-  //   // 2. Setup SplitType for Typography
-  //   const splitBio = new SplitType(bioTextRef.current, { types: 'lines,words' });
-  //   gsap.set(splitBio.words, { opacity: 0, y: 20 });
+      const mainTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top top",
+          end: "+=600%", // Long scroll for deep immersion
+          pin: true,
+          scrub: 1.5,
+        },
+      });
 
-  //   // 3. Master Scrollytelling Timeline
-  //   const tl = gsap.timeline({
-  //     scrollTrigger: {
-  //       trigger: mainRef.current,
-  //       start: "top top",
-  //       end: "+=600%", // Long scroll for deep dive feel
-  //       pin: true,
-  //       scrub: 1.5, // High smoothing for premium feel [1]
-  //     }
-  //   });
+      // --- ACT 1: THE SUPERNOVA ---
+      mainTl.set(supernovaRef.current, { scale: 0, opacity: 1 });
+      mainTl.to(supernovaRef.current, {
+        scale: 150,
+        duration: 3,
+        ease: "expo.inOut",
+      })
+      .to(supernovaRef.current, {
+        opacity: 0,
+        duration: 1.5,
+      }, "-=0.5");
 
-  //   // ACT I: The Expansion (Expanding Portal)
-  //   tl.to(portalRef.current, {
-  //     scale: 50, // Scales until the "thing" covers the whole screen
-  //     duration: 2,
-  //     ease: "power2.inOut"
-  //   })
-  //  .to(".overlay-intro", { opacity: 0, duration: 0.5 }, "-=0.5")
+      // --- ACT 2: THE PORTRAIT EMERGENCE ---
+      mainTl.fromTo(section1Ref.current, 
+        { z: 1000, opacity: 0, filter: "blur(20px)" },
+        { z: 0, opacity: 1, filter: "blur(0px)", duration: 2.5, ease: "power4.out" },
+        "-=2"
+      );
 
-  //   // ACT II: Identity Reveal (Partial Face & Initial Intro) 
-  //  .fromTo(imageRef.current, 
-  //     { x: "-60%", opacity: 0, filter: "grayscale(100%) blur(10px)" },
-  //     { x: "-35%", opacity: 1, filter: "grayscale(100%) blur(0px)", duration: 1.5 },
-  //     ">"
-  //   )
-  //  .to(bgTextRef.current, { opacity: 0.05, textContent: "FAYSAL SARKER", duration: 1 })
+      mainTl.from(title1.chars, {
+        opacity: 0,
+        y: 100,
+        rotateX: -90,
+        stagger: 0.03,
+        duration: 1.5,
+        ease: "expo.out"
+      }, "-=1.5");
 
-  //   // ACT III: The Connective Thread (Line Drawing) 
-  //  .to(path, { strokeDashoffset: 0, duration: 2, ease: "none" }, ">")
-  //  .from(".intro-name", { opacity: 0, x: 50, stagger: 0.2 }, "-=1")
+      // Floating parallax for the main image
+      mainTl.to(heroImageRef.current, {
+        y: -50,
+        duration: 2,
+        ease: "none"
+      }, "imageScroll");
 
-  //   // ACT IV: The Smooth Shift (Move Image Left to Right) [2]
-  //  .to(imageRef.current, { 
-  //     x: "40%", 
-  //     filter: "grayscale(0%)", // Changes from B&W to Color [3]
-  //     duration: 3, 
-  //     ease: "power1.inOut" 
-  //   })
-  //  .to(bgTextRef.current, { textContent: "FULLSTACK DEV", y: -50, duration: 1.5 }, "-=3")
+      // --- ACT 3: THE DIMENSIONAL FLIP ---
+      // Scene 1 pushes AWAY into the distance
+      mainTl.to(section1Ref.current, {
+        z: -2000,
+        opacity: 0,
+        scale: 0.5,
+        duration: 3,
+        ease: "expo.inOut"
+      }, "+=1");
 
-  //   // ACT V: Deep Narrative (SplitType Paragraph Reveal)
-  //  .to(splitBio.words, {
-  //     opacity: 1,
-  //     y: 0,
-  //     stagger: 0.02,
-  //     duration: 1,
-  //     ease: "power3.out"
-  //   }, "-=1");
+      // Scene 2 comes forward from the "back" of the screen
+      mainTl.fromTo(section2Ref.current,
+        { z: 2000, opacity: 0, scale: 2, filter: "blur(30px)" },
+        { z: 0, opacity: 1, scale: 1, filter: "blur(0px)", duration: 3, ease: "expo.out" },
+        "-=2.5"
+      );
 
-  // }, { scope: mainRef });
+      mainTl.from(text2.lines, {
+        opacity: 0,
+        x: -100,
+        stagger: 0.2,
+        duration: 2,
+        ease: "power4.out"
+      }, "-=1");
+
+    }, containerRef);
+
+    return () => ctx.revert();
+  }, []);
 
   return (
-    <section ref={mainRef} className="relative w-full h-screen bg-black text-white overflow-hidden font-sans">
-      {/* Background Kinetic Typography  */}
+    <main 
+      ref={containerRef} 
+      className="relative w-full h-screen bg-black overflow-hidden perspective-2000 select-none"
+    >
+      {/* The supernova circle expansion */}
       <div 
-        ref={bgTextRef} 
-        className="absolute inset-0 flex items-center justify-center text-[15vw] font-black opacity-0 select-none transition-all duration-1000"
-      >
-        ABOUT
-      </div>
+        ref={supernovaRef}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-white rounded-full z-[100] pointer-events-none shadow-[0_0_100px_rgba(255,255,255,0.8)]"
+      />
 
-      {/* Act I: The Portal "Thing" */}
-      <div className="absolute inset-0 flex items-center justify-center z-50 pointer-events-none">
-        <div ref={portalRef} className="w-12 h-12 border border-white rounded-full bg-transparent flex items-center justify-center">
-            <span className="overlay-intro text-[8px] uppercase tracking-widest">Scroll</span>
-        </div>
-      </div>
-
-      {/* Act II & IV: The Image Reveal [4, 5] */}
+      {/* ACT 1: PORTRAIT SCENE (Image Left, Text Right) */}
       <div 
-        ref={imageRef} 
-        className="absolute top-1/2 left-0 -translate-y-1/2 w-[60vh] h-[80vh] z-20 border-r border-white/20"
+        ref={section1Ref}
+        className="absolute inset-0 flex items-center justify-center p-10 md:p-24 will-change-transform transform-style-3d"
       >
-        <Image 
-          src="/me.jpg" 
-          alt="Faysal Sarker" 
-          fill 
-          className="object-cover object-right" // Ensures only right side/eye is visible initially 
-        />
-      </div>
-
-      {/* Act III: The Connective Line [6, 7] */}
-      <svg className="absolute inset-0 w-full h-full z-10 pointer-events-none" viewBox="0 0 1920 1080">
-        <path
-          ref={lineRef}
-          d="M600,540 Q960,540 1300,540" // Path from image to right side text
-          stroke="white"
-          strokeWidth="1"
-          fill="none"
-        />
-      </svg>
-
-      {/* Narrative Content [8, 4] */}
-      <div className="relative z-30 flex flex-col justify-center h-full pl-[55%] pr-20">
-        <div className="intro-name mb-10">
-          <h1 className="text-8xl font-bold uppercase leading-none tracking-tighter">
-            Hi, I&apos;m <br /> <span className="text-outline-white">Faysal Sarker</span>
-          </h1>
-          <p className="text-xl text-gray-400 mt-4 tracking-widest uppercase">Fullstack Developer & Creative Tech</p>
-        </div>
-
-        <div ref={bioTextRef} className="max-w-xl text-2xl font-light leading-relaxed text-gray-300">
-          I build high-performance digital experiences that bridge the gap between human emotion and technical logic. 
-          Through clean code and immersive design, I transform ideas into award-winning narratives.
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 w-full max-w-7xl items-center">
+          <div ref={heroImageRef} className="col-span-12 md:col-span-6 relative aspect-[4/5] overflow-hidden group">
+            <div className="absolute inset-0 bg-white/5 z-10 group-hover:bg-transparent transition-colors duration-500" />
+            <Image 
+              src="/me.jpg" 
+              alt="Faysal Sarker" 
+              fill 
+              className="object-cover grayscale scale-110 hover:grayscale-0 transition-all duration-700"
+            />
+          </div>
+          <div className="col-span-12 md:col-span-6">
+            <h1 className="title-1 text-8xl md:text-[10vw] font-black uppercase leading-[0.8] tracking-tighter text-white">
+              Faysal <br /> <span className="text-outline">Sarker</span>
+            </h1>
+            <p className="mt-8 text-white/40 tracking-[0.5em] uppercase text-sm font-light">
+              Full Stack Developer — BD
+            </p>
+          </div>
         </div>
       </div>
-    </section>
+
+      {/* ACT 2: VISION SCENE (Text Left, Image Right) */}
+      <div 
+        ref={section2Ref}
+        className="absolute inset-0 flex items-center justify-center p-10 md:p-24 opacity-0 will-change-transform transform-style-3d"
+      >
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 w-full max-w-7xl items-center">
+          <div className="col-span-12 md:col-span-7 order-2 md:order-1">
+            <h2 className="text-white text-5xl md:text-7xl font-light leading-tight mb-8">
+              Turning <span className="italic font-serif">Logic</span> <br /> 
+              into digital <span className="text-outline">Poetry</span>.
+            </h2>
+            <div className="text-2 text-white/60 text-xl md:text-2xl font-extralight max-w-xl leading-relaxed">
+              <p>Specializing in Next.js architectures and cinematic GSAP motions.</p>
+              <p className="mt-4">I build web experiences that don't just work—they breathe.</p>
+            </div>
+          </div>
+          <div className="col-span-12 md:col-span-5 order-1 md:order-2">
+            <div className="relative aspect-square border border-white/20 p-4 rotate-3">
+               <Image 
+                               src="/me.jpg" 
+
+                alt="Architecture" 
+                fill 
+                className="object-cover grayscale brightness-50"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Decorative Ghost Background Elements */}
+      <div className="absolute top-10 left-10 text-white/5 text-sm uppercase tracking-widest vertical-text hidden md:block">
+        Portfolio v2.0 // 2024
+      </div>
+      
+      <style jsx global>{`
+        .perspective-2000 { perspective: 2000px; }
+        .transform-style-3d { transform-style: preserve-3d; }
+        .text-outline {
+          color: transparent;
+          -webkit-text-stroke: 1px rgba(255, 255, 255, 0.5);
+        }
+        .vertical-text {
+          writing-mode: vertical-rl;
+          text-orientation: mixed;
+        }
+      `}</style>
+    </main>
   );
-}
+};
+
+export default AboutMasterpiece;
