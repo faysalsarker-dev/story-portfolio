@@ -27,7 +27,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable}  antialiased overflow-x-hidden`}
       >
-        <Navbar/>
+        {/* <Navbar/> */}
         {children}
       </body>
     </html>

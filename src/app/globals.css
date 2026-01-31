@@ -60,7 +60,8 @@
 
 :root {
 /* #0a0a0a */
-  --background: oklch(0.14 0 0);      /* #121212 - Premium Soft Black */
+  /* --background: oklch(0.14 0 0);      #121212 - Premium Soft Black */
+  --background: oklch(0.013 0 0);      /* #050505 - Premium Soft Black */
   --foreground: oklch(0.92 0.01 0);    /* #EAEAEA - Eye-friendly White */
 
   --primary: oklch(0.92 0.01 0);
