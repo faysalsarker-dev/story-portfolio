@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import {  Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/shared/Navbar";
+import SmoothScrollProvider from "@/providers/SmoothScrollProvider";
 
 
 
@@ -27,8 +28,14 @@ export default function RootLayout({
       <body
         className={`${inter.variable}  antialiased overflow-x-hidden`}
       >
-        {/* <Navbar/> */}
-        {children}
+        <Navbar/>
+
+<SmoothScrollProvider>
+          {children}
+        </SmoothScrollProvider>
+
+
+       
       </body>
     </html>
   );

@@ -3,9 +3,6 @@
 "use client";
 import { useRef, useEffect, useState } from "react";
 
-// import gsap from "gsap";
-// import { ScrollTrigger } from "gsap/ScrollTrigger";
-// gsap.registerPlugin(ScrollTrigger);
 
 import HeroText from "../modules/Hero/HeroText";
 import HeroImage from "../modules/Hero/HeroImage";
