@@ -5,9 +5,9 @@ import { useGSAP } from '@gsap/react';
 
 
 if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
+  gsap.registerPlugin(ScrollTrigger );
 }
 
 export * from "gsap";
-export { ScrollTrigger ,useGSAP };
+export { ScrollTrigger ,useGSAP  };
 export default gsap;

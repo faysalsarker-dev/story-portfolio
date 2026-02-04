@@ -79,7 +79,7 @@ const TechCard = ({ id, label, skills, index, isLast }: any) => (
 
         <div className="flex flex-wrap gap-2 py-4">
           {skills.map((s: string) => (
-            <span key={s} className="border border-white/20 bg-white/5 px-3 py-1 text-[11px] font-mono text-white/80 uppercase">
+            <span key={s.name} className="border border-white/20 bg-white/5 px-3 py-1 text-[11px] font-mono text-white/80 uppercase">
               {s.name}
             </span>
           ))}
